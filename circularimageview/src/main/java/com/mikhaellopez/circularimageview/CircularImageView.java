@@ -20,7 +20,7 @@ import android.widget.ImageView;
  */
 public class CircularImageView extends ImageView {
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
-
+    private  float padding = DEFAULT_SHADOW_RADIUS*2;
     // Default Values
     private static final float DEFAULT_BORDER_WIDTH = 4;
     private static final float DEFAULT_SHADOW_RADIUS = 8.0f;
@@ -72,6 +72,7 @@ public class CircularImageView extends ImageView {
         // Init Shadow
         if (attributes.getBoolean(R.styleable.CircularImageView_civ_shadow, false)) {
             shadowRadius = DEFAULT_SHADOW_RADIUS;
+            padding = shadowRadius*2f;
             drawShadow(attributes.getFloat(R.styleable.CircularImageView_civ_shadow_radius, shadowRadius), attributes.getColor(R.styleable.CircularImageView_civ_shadow_color, shadowColor));
         }
     }
@@ -172,7 +173,7 @@ public class CircularImageView extends ImageView {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             setLayerType(LAYER_TYPE_SOFTWARE, paintBorder);
         }
-        paintBorder.setShadowLayer(shadowRadius, 0.0f, shadowRadius / 2, shadowColor);
+        paintBorder.setShadowLayer(shadowRadius, 0.0f, 0.0f, shadowColor);
     }
 
     private void updateShader() {
@@ -187,7 +188,8 @@ public class CircularImageView extends ImageView {
 
         // Center Image in Shader
         Matrix matrix = new Matrix();
-        matrix.setScale((float) canvasSize / (float) image.getWidth(), (float) canvasSize / (float) image.getHeight());
+        matrix.setScale((float) (canvasSize-2*padding) / (float) (image.getWidth()), (float) (canvasSize-2*padding) / (float) (image.getHeight()));
+        matrix.postTranslate(padding,padding);
         shader.setLocalMatrix(matrix);
 
         // Set Shader in Paint
@@ -285,7 +287,7 @@ public class CircularImageView extends ImageView {
             result = canvasSize;
         }
 
-        return (result + 2);
+        return result;
     }
     //endregion
 }
