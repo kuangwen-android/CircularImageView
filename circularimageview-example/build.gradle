@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -24,4 +24,6 @@ dependencies {
    // compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.larswerkman:lobsterpicker:1.0.0'
     compile project(':circularimageview')
+    compile 'com.lijiankun24:shadowlayout:1.0.0'
+
 }
